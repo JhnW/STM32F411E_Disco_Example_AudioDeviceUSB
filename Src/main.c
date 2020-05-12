@@ -29,6 +29,7 @@
 #include "../Drivers/BSP/STM32F411E-Discovery/stm32f411e_discovery_accelerometer.h"
 #include "../Drivers/BSP/STM32F411E-Discovery/stm32f411e_discovery_audio.h"
 #include "../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h"
+#include "../Middlewares/ST/STM32_USB_Device_Library/Class/AUDIO/Inc/usbd_audio.h"
 #include "audio_device.h"
 /* USER CODE END Includes */
 
@@ -128,13 +129,11 @@ int main(void)
   volatile AudioMicrophoneData_t* inData = GetAudioMicrophoneData();
   int simpleDebouncingCount = 0;
 
-  //BSP_AUDIO_IN_Record((uint16_t*)inData->buffer, AUDIO_IN_SIZE*2);
-  bool tet = true;
   while (1)
   {
 	if(simpleDebouncingCount >= 1) simpleDebouncingCount++;
 	if(simpleDebouncingCount > 1000000) simpleDebouncingCount = 0;
-	if(GPIO_PIN_SET == BSP_PB_GetState(BUTTON_KEY) && simpleDebouncingCount == 0 && tet) //sime debouncing
+	if(GPIO_PIN_SET == BSP_PB_GetState(BUTTON_KEY) && simpleDebouncingCount == 0) //sime debouncing
 	{
 		simpleDebouncingCount = 1;
 		if(GetAudioMode() == AUDIO_MODE_SPEAKER)
@@ -519,3 +518,4 @@ void assert_failed(uint8_t *file, uint32_t line)
 #endif /* USE_FULL_ASSERT */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
