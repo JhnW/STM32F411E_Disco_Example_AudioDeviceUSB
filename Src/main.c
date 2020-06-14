@@ -133,7 +133,7 @@ int main(void)
   {
 	if(simpleDebouncingCount >= 1) simpleDebouncingCount++;
 	if(simpleDebouncingCount > 1000000) simpleDebouncingCount = 0;
-	if(GPIO_PIN_SET == BSP_PB_GetState(BUTTON_KEY) && simpleDebouncingCount == 0) //sime debouncing
+	if(GPIO_PIN_SET == BSP_PB_GetState(BUTTON_KEY) && simpleDebouncingCount == 0) //simple debouncing
 	{
 		simpleDebouncingCount = 1;
 		if(GetAudioMode() == AUDIO_MODE_SPEAKER)
@@ -151,7 +151,6 @@ int main(void)
 			BSP_AUDIO_IN_Record((uint16_t*)inData->buffer, AUDIO_IN_SIZE*2);
 		}else
 		{
-
 			SetAudioMode(AUDIO_MODE_SPEAKER);
 			BSP_LED_Off(LED6);
 			BSP_AUDIO_IN_Stop();

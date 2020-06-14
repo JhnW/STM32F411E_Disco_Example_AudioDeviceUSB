@@ -28,6 +28,8 @@ typedef struct AudioMicrophoneData_t
 	uint16_t pdm2[4 * AUDIO_BYTES];
 	uint16_t pcm1[2 * AUDIO_BYTES * 4];
 	uint16_t pcm2[2 * AUDIO_BYTES * 4];
+	uint16_t pcm3[2 * AUDIO_BYTES * 4];
+	uint16_t pcm4[2 * AUDIO_BYTES * 4];
 	bool isFrameToConsume;
 	bool isFrameConsumed;
 	int frameID;

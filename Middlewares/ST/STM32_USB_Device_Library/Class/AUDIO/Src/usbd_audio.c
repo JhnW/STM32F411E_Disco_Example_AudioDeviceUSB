@@ -630,27 +630,24 @@ static uint8_t USBD_AUDIO_DataIn(USBD_HandleTypeDef *pdev, uint8_t epnum)
   __disable_irq();
   USBD_LL_FlushEP(pdev, AUDIO_IN_EP);
   if(GetAudioMode() == AUDIO_MODE_SPEAKER) USBD_LL_Transmit(pdev, AUDIO_IN_EP, GetZeroData(), AUDIO_IN_SIZE);
-  if(GetAudioMicrophoneData()->frameToRecord == 1)
+  if(GetAudioMicrophoneData()->frameID== 1)
   {
 	  USBD_LL_Transmit(pdev, AUDIO_IN_EP, (uint8_t*)GetAudioMicrophoneData()->pcm1, AUDIO_IN_SIZE);
-  }else if(GetAudioMicrophoneData()->frameToRecord == 2)
+  }else if(GetAudioMicrophoneData()->frameID == 2)
   {
 	  USBD_LL_Transmit(pdev, AUDIO_IN_EP, (uint8_t*)GetAudioMicrophoneData()->pcm2, AUDIO_IN_SIZE);
+  }else if(GetAudioMicrophoneData()->frameID == 3)
+  {
+	  USBD_LL_Transmit(pdev, AUDIO_IN_EP, (uint8_t*)GetAudioMicrophoneData()->pcm3, AUDIO_IN_SIZE);
+  }else if(GetAudioMicrophoneData()->frameID == 4)
+  {
+	  USBD_LL_Transmit(pdev, AUDIO_IN_EP, (uint8_t*)GetAudioMicrophoneData()->pcm4, AUDIO_IN_SIZE);
   }else
   {
 	  USBD_LL_Transmit(pdev, AUDIO_IN_EP, GetZeroData(), AUDIO_IN_SIZE);
   }
-
-
-//  else if(GetAudioMicrophoneData()->isFrameToConsume)
-//  {
-//	  GetAudioMicrophoneData()->isFrameToConsume = false;
-//	  if(GetAudioMicrophoneData()->frameID == 1) USBD_LL_Transmit(pdev, AUDIO_IN_EP, (uint8_t*)GetAudioMicrophoneData()->pcm1, AUDIO_IN_SIZE);
-//	  else if(GetAudioMicrophoneData()->frameID == 2) USBD_LL_Transmit(pdev, AUDIO_IN_EP, (uint8_t*)GetAudioMicrophoneData()->pcm2, AUDIO_IN_SIZE);
-//  }else
-//  {
-//	  USBD_LL_Transmit(pdev, AUDIO_IN_EP, GetZeroData(), AUDIO_IN_SIZE);
-//  }
+  GetAudioMicrophoneData()->frameID++;
+  if(GetAudioMicrophoneData()->frameID > 4) GetAudioMicrophoneData()->frameID = 1;
   __enable_irq();
 
   /* Only OUT data are processed */

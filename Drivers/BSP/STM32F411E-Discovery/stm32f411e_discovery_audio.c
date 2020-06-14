@@ -1036,8 +1036,14 @@ __weak void BSP_AUDIO_IN_TransferComplete_CallBack(void)
 	//GetAudioMicrophoneData()->isFrameConsumed = true;
 	__disable_irq();
 	volatile AudioMicrophoneData_t* inData = GetAudioMicrophoneData();
-	BSP_AUDIO_IN_PDMToPCM((uint16_t*)(inData->buffer+64),(uint16_t*)inData->pcm2);
-	inData->frameToRecord = 2;
+	uint16_t *ptr = NULL;
+	if(inData->frameToRecord == 1) ptr = (uint16_t*)inData->pcm1;
+	else if(inData->frameToRecord == 2) ptr = (uint16_t*)inData->pcm2;
+	else if(inData->frameToRecord == 3) ptr = (uint16_t*)inData->pcm3;
+	else if(inData->frameToRecord == 4) ptr = (uint16_t*)inData->pcm4;
+	BSP_AUDIO_IN_PDMToPCM((uint16_t*)(inData->buffer+64),ptr);
+	inData->frameToRecord++;
+	if(inData->frameToRecord > 4) inData->frameToRecord = 1;
 	__enable_irq();
 }
 
@@ -1051,8 +1057,14 @@ __weak void BSP_AUDIO_IN_HalfTransfer_CallBack(void)
      to prepare the next buffer pointer and its size. */
 	__disable_irq();
 	volatile AudioMicrophoneData_t* inData = GetAudioMicrophoneData();
-	BSP_AUDIO_IN_PDMToPCM((uint16_t*)inData->buffer,(uint16_t*)inData->pcm1);
-	inData->frameToRecord = 1;
+	uint16_t *ptr = NULL;
+	if(inData->frameToRecord == 1) ptr = (uint16_t*)inData->pcm1;
+	else if(inData->frameToRecord == 2) ptr = (uint16_t*)inData->pcm2;
+	else if(inData->frameToRecord == 3) ptr = (uint16_t*)inData->pcm3;
+	else if(inData->frameToRecord == 4) ptr = (uint16_t*)inData->pcm4;
+	BSP_AUDIO_IN_PDMToPCM((uint16_t*)inData->buffer,ptr);
+	inData->frameToRecord++;
+	if(inData->frameToRecord > 4) inData->frameToRecord = 1;
 	__enable_irq();
 }
 
