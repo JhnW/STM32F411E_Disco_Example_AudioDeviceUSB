@@ -14,7 +14,7 @@ How its works
 - Press user button again to back audio play.
 - Unused audio mode will play/record zero signal - silence.
 
-I tested this solution only on Linux system (Ubuntu 18.04). Microsoft system don't like USB Audio Class so it couldn't work out-of box.
+I tested this solution only on Linux system (Ubuntu 18.04 and Ubuntu 20.04). Microsoft system don't like USB Audio Class so it couldn't work out-of box.
 
 ------------
 
@@ -37,12 +37,13 @@ Know issues
 
 FAQ
 - Why do you make this example?
-Because I will learn somethings about USB and audio handling in MCU (second much).         Unfortunately I don't fight many examples, explanations or tutorials. Many sources was only datasheets, examples for others platform or old project, hard to implemented with new HAL libraries (for example Russian USB microphone project for STM32 in the abyss of the network). So now you are able to save your time, at least until this project becomes outdated.
+Because I will learn somethings about USB and audio handling in MCU (second much). 
+Unfortunately I don't fight many examples, explanations or tutorials. Many sources was only datasheets, examples for others platform or old project, hard to implemented with new HAL libraries (for example Russian USB microphone project for STM32 in the abyss of the network). So now you are able to save your time, at least until this project becomes outdated.
 - Why we can't play and record in the same time?
-Please check BSP init clock configuration for audio input and output. Event with the same frequency (for example, 16 kHz) I2S clock need different configuration.
+  Please check BSP init clock configuration for audio input and output. Event with the same frequency (for example, 16 kHz) I2S clock need different configuration.
 Additional, without DMA in USB data transfer, handle all cases will impact on audio delay and make additional noises. Maybe RTOS will solve the second problem.
 - So why do you not use DMA in USB driver? Or other improvements?
-Because I'm lazy. It is very simple example, just be happy that you can read code extreme fast if you are familiar with standard STM libraries.
+  Because I'm lazy. It is very simple example, just be happy that you can read code extreme fast if you are familiar with standard STM libraries.
 
 
 ------------
